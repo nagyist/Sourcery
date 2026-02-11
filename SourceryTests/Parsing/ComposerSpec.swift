@@ -2365,6 +2365,30 @@ class ParserComposerSpec: QuickSpec {
                             let parsedFoo = types.first(where: { $0.globalName == "Foo" })
                             expect(parsedFoo).to(equal(expectedBar))
                         }
+
+                        it("ignores empty generic arguments created by trailing commas") {
+                            let types = parse("""
+                                struct Example<A: RandomAccessCollection, B: RandomAccessCollection>
+                                  where A.Element == String,
+                                  B.Element == String
+                                {
+                                  let asyncTaskData: OrderedDictionary<
+                                    String,
+                                    (status: Result<Int, Error>, messages: [String]),
+                                  >
+                                }
+                                """)
+
+                            let example = types.first(where: { $0.globalName == "Example" })
+                            expect(example).toNot(beNil())
+
+                            let variable = example?.variables.first(where: { $0.name == "asyncTaskData" })
+                            let parameters = variable?.typeName.generic?.typeParameters
+
+                            expect(parameters).to(haveCount(2))
+                            expect(parameters?.first?.typeName.name).to(equal("String"))
+                            expect(parameters?.last?.typeName.name).to(equal("(status: Result<Int, Error>, messages: [String])"))
+                        }
                     }
                 }
 

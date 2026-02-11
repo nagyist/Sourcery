@@ -551,10 +551,11 @@ internal struct ParserResultsComposed {
         let hasGenericRequirements = containingType?.genericRequirements.isEmpty == false
         || (method != nil && method?.genericRequirements.isEmpty == false)
 
-        if hasGenericRequirements {
+        if hasGenericRequirements,
+           let typeNameForLookup = typeName.name.split(separator: " ").first,
+           !typeNameForLookup.isEmpty {
             // we should consider if we are looking up return type of a method with generic constraints
             // where `typeName` passed would include `... where ...` suffix
-            let typeNameForLookup = typeName.name.split(separator: " ").first!
             let genericRequirements: [GenericRequirement]
             if let requirements = containingType?.genericRequirements, !requirements.isEmpty {
                 genericRequirements = requirements

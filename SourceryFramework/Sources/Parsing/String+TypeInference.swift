@@ -243,8 +243,9 @@ extension String {
         }
         
         let body = trimmed[trimmed.index(after: start)..<trimmed.index(before: trimmed.endIndex)]
-        return GenericType(name: String(trimmed[..<start]), typeParameters: String(body).commaSeparated().map({ value in
+        return GenericType(name: String(trimmed[..<start]), typeParameters: String(body).commaSeparated().compactMap({ value in
             let stripped = value.stripped()
+            guard !stripped.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
             return GenericTypeParameter(typeName: stripped.inferType ?? TypeName(stripped))
         }))
     }
