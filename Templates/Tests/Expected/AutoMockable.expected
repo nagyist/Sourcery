@@ -1306,6 +1306,11 @@ class NullableClosureProtocolMock: NullableClosureProtocol {
 
 
 }
+class ProtocolWithAssociatedTypeCollisionMock: ProtocolWithAssociatedTypeCollision, @unchecked Sendable {
+
+
+
+}
 public class ProtocolWithMethodWithGenericParametersMock: ProtocolWithMethodWithGenericParameters {
 
     public init() {}
