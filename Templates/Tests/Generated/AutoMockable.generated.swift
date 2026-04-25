@@ -1,4 +1,4 @@
-// Generated using Sourcery 2.2.7 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.3.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable line_length
 // swiftlint:disable variable_name
@@ -1303,6 +1303,13 @@ class NullableClosureProtocolMock: NullableClosureProtocol {
         setClosureClosureVoidVoidReceivedInvocations.append(closure)
         setClosureClosureVoidVoidClosure?(closure)
     }
+
+
+}
+class ProtocolWithAssociatedTypeCollisionMock: ProtocolWithAssociatedTypeCollision, @unchecked Sendable {
+
+
+
 
 
 }

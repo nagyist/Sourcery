@@ -70,6 +70,7 @@ internal struct ParserResultsComposed {
 
         /// Map associated types
         associatedTypes.forEach {
+            guard typeMap[$0.key] == nil else { return }
             if let globalName = $0.value.type?.globalName,
                let type = typeMap[globalName] {
                 typeMap[$0.key] = type
