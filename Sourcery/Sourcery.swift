@@ -526,6 +526,7 @@ extension Sourcery {
 
         Log.info("Generating code...")
         status = ""
+        fileAnnotatedContent.removeAll()
 
         if output.isDirectory {
             try allTemplates.forEach { template in

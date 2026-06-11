@@ -1183,6 +1183,27 @@ class SourcerySpecTests: QuickSpec {
                         expect(result).to(equal(expectedResult))
                     }
 
+                    it("does not reuse annotated content between generations") {
+                        let expectedResult = """
+                            // Generated using Sourcery Major.Minor.Patch — https://github.com/krzysztofzablocki/Sourcery
+                            // DO NOT EDIT
+                            extension Foo {
+                            var property = 2
+                            // Line Three
+                            }
+
+                            """
+
+                        let sourcery = Sourcery(watcherEnabled: false, cacheDisabled: true)
+                        expect { try sourcery.processFiles(.sources(Paths(include: [sourcePath])), usingTemplates: Paths(include: [templatePath]), output: output, baseIndentation: 0) }.toNot(throwError())
+                        expect { try sourcery.processFiles(.sources(Paths(include: [sourcePath])), usingTemplates: Paths(include: [templatePath]), output: output, baseIndentation: 0) }.toNot(throwError())
+
+                        let generatedPath = outputDir + Path("Generated/Foo.generated.swift")
+
+                        let result = try? generatedPath.read(.utf8)
+                        expect(result).to(equal(expectedResult))
+                    }
+
                 }
 
                 context("given a restricted file") {
